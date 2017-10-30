@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+<meta name="keywords" content="kihumm blog"/>
+<meta name="description" content="kihumm blog"/>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<title>kihumm blog</title>
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.css" />
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style>
+.message_content { word-break: break-word; white-space: pre-wrap; }
+.btn-inline { margin: 2px 5px; } 
+
+.link_block { display: block; }
+</style>
+</head>
+<body>
+	<header class="top"><span class="top_text"></span>
+	</header>
+	<section class="main">
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				<h3 class="panel-title">列表</h3>
+			</div>
+			<div class="panel-body">
+				<ul class="list-group">
+					<li class="list-group-item"><a class="link_block" href="music/index.html">音乐</a></li>
+					<li class="list-group-item"><a class="link_block" href="video/index.html">视频</a></li>
+				</ul>
+			</div>
+			<div class="panel-foot">
+			</div>
+		</div>
+	</section>
+<script>
+;(function (doc, win) {
+	// rem responsive
+	var docEl = doc.documentElement,
+		resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+		recalc = function () {
+			var clientWidth = docEl.clientWidth;
+				if (!clientWidth) return;
+					docEl.style.fontSize = 10 * (clientWidth / 320) + 'px';
+		};
+	if (!doc.addEventListener) return;
+	win.addEventListener(resizeEvt, recalc, false);
+	doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+</body>
+</html>

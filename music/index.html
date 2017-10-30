@@ -1,0 +1,139 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+<meta name="keywords" content="dm音乐播放器"/>
+<meta name="description" content="dm音乐播放器"/>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<title>dm音乐播放器</title>
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.css" />
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="/blog/libs/util/dateHelper.js"></script>
+<link rel="stylesheet" href="css/style.css" />
+<script src="js/player.js"></script>
+
+<style>
+body {  color: #333; font-family: Arial, Helvetica, sans-serif; -webkit-text-size-adjust: none; }
+.message_content { word-break: break-word; white-space: pre-wrap; }
+.btn-inline { margin: 2px 5px; } 
+
+.link_block { display: block; }
+</style>
+</head>
+<body>
+	<header class="top"><span class="top_text"></span>
+	</header>
+	<section class="main">
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				<h3 class="panel-title">dm音乐播放器</h3>
+			</div>
+			<div class="panel-body">
+				<ul class="list-group">
+					<li class="list-group-item"><a class="link_block choose_asset_btn" data-src="桃花岛.mp3" data-link="javascript:;">桃花岛</a></li>
+					<li class="list-group-item"><a class="link_block choose_asset_btn" data-src="侠儒无踪.mp3" data-link="javascript:;">侠儒无踪</a></li>
+				</ul>
+			</div>
+			<div class="panel-foot">
+			</div>
+		</div>
+	</section>
+	
+	<audio class="dm-m-player-media" nocontrol></audio>
+	<section class="dm-btm-bar">
+		<div class="dm-m-player-bar">
+			
+			<div class="dm-player-updn">
+				<div class="dm-player-updn-left">
+					<a href="javascript:;" class="dm-player-lock-btn" hidefocus="true" data-action="lock"></a>
+				</div>
+				<div class="dm-player-updn-right"></div>
+			</div>
+			<div class="dm-player-bg"></div>
+			<div class="dm-player-hand" title="展开播放条"></div>
+			<div class="dm-player-wrap">
+				<div class="dm-player-wrap-btns">
+					<a href="javascript:;" hidefocus="true" data-action="prev" class="prv" title="上一首(ctrl+←)">上一首</a>
+					<a href="javascript:;" hidefocus="true" data-action="play" class="ply j-flag" title="播放/暂停(p)">播放/暂停</a>
+					<a href="javascript:;" hidefocus="true" data-action="next" class="nxt" title="下一首(ctrl+→)">下一首</a>
+				</div>
+				<div class="dm-player-wrap-head">
+					<img src="http://p1.music.126.net/yNH3vCz0cYUSVHuHIMELbg==/130841883708874.jpg?param=34y34">
+					<a href="/song?id=378028" hidefocus="true" class="mask"></a>
+				</div>
+				<div class="dm-player-wrap-play">
+					<div class="dm-player-wrap-play-words">
+					</div>
+					<div class="dm-player-pbar" data-action="noop">
+						<div class="barbg j-flag" id="auto-id-cHlAXzV6kqQLWacH">
+						<div class="rdy" style="width: 0%;"></div>
+						<div class="cur" style="width: 0%;">
+							<span class="btn f-tdn f-alpha ptr" id="auto-id-skyK35bnDszLep6b"><i></i></span></div>
+						</div>
+						<span class="j-flag time"><em class="dm-player-pbar-cur-text"></em> / <span class="dm-player-pbar-dur-text"></span></span>
+					</div>
+				</div>
+				<div class="dm-player-wrap-oper">
+					<a href="javascript:;" hidefocus="true" data-action="like" class="icn icn-add j-flag" title="收藏">收藏</a>
+					<a href="javascript:;" hidefocus="true" data-action="share" class="icn icn-share" title="分享">分享</a>
+				</div>
+				<div class="dm-player-wrap-ctrl f-fl f-pr j-flag">
+					<div class="dm-player-vol" style="visibility:hidden;" id="auto-id-nXToBF5MdcvZpDul">
+						<div class="barbg"></div>
+						<div class="vbg j-t" id="auto-id-K016DcCHFdSwJHCD" >
+							<div class="curr j-t" style="height: 100%;">
+								<span class="btn f-alpha j-t"></span>
+							</div>
+						</div>
+					</div>
+					<a href="javascript:;" hidefocus="true" data-action="volume" class="icn icn-vol"></a>
+					<a href="javascript:;" hidefocus="true" data-action="mode" class="icn icn-loop" title="循环"></a>
+					<span class="add f-pr">
+						<span class="tip" style="display:none;">已添加到播放列表</span>
+						<a href="javascript:;" title="播放列表" hidefocus="true" data-action="panel" class="icn icn-list s-fc3">11</a>
+					</span>
+					<div class="tip tip-1" style="display:none;">循环</div>
+				</div>
+				
+				
+			</div>
+		</div>
+	
+	</section>
+<script>
+
+	var assetDir = '../asset';
+	var musicDir = assetDir+'/music';
+	
+	$(function(){
+		initPage();
+	});
+	
+	function initPage(){
+		$('.choose_asset_btn').on('click', function(e){
+			var btn = $(this);
+			var src = musicDir + '/' + btn.data('src');
+			var link = btn.data('link');
+			var title = btn.html();
+			player.setMedia({
+				src: src,
+				link: link,
+				title: title,
+			});
+		});
+		
+		player = new myHelper.MusicPlayer({
+		
+		});
+		
+		$('.choose_asset_btn').eq(0).trigger('click')
+	}
+
+
+</script>	
+
+</body>
+</html>
